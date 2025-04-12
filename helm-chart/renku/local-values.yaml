@@ -1,0 +1,101 @@
+---
+gitlab:
+  enabled: false
+global:
+  core:
+    versions:
+      latest:
+        image:
+          tag: "v2.9.3"
+  anonymousSessions:
+    enabled: true
+  gateway:
+    gitlabClientId: 
+    gitlabClientSecret: 
+  gitlab:
+    registry:
+      host: none
+    url: none
+  renku:
+    domain: localhost
+  useHTTPS: false
+ingress:
+  enabled: true
+  hosts:
+    - localhost
+  tls:
+    - hosts:
+        - localhost
+      secretName: none
+notebooks:
+  oidc:
+    allowUnverifiedEmail: true
+  sessionAffinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: renku.io/node-purpose
+                operator: In
+                values:
+                  - user
+  sessionTolerations:
+    - effect: NoSchedule
+      key: renku.io/dedicated
+      operator: Equal
+      value: user
+postgresql:
+  primary:
+    persistence:
+      enabled: false
+redis:
+  master:
+    persistence:
+      enabled: false
+
+## hardcoded versions
+keycloakx:
+  initRealm:
+    image:
+      tag: "0.67.1"
+ui:
+  client:
+    canary:
+      image:
+        tag: "3.53.1"  # originally 0.11.16
+
+tests:
+  image:
+    tag: "0.67.1"  # originally 0.36.3
+
+search:
+  searchApi:
+    image:
+      tag: "0.8.0" # originally 0.7.0
+  searchProvision:
+    image:
+      tag: "0.8.0" # originally 0.7.0
+# graph:
+#   webhookService:
+#     image:
+#       tag: "2.29.0"  # 2.50.0
+#   tokenRepository:
+#     image:
+#       tag: "2.29.0"  # 2.50.0
+#   triplesGenerator:
+#     image:
+#       tag: "2.29.0"  # 2.50.0
+#   knowledgeGraph:
+#     image:
+#       tag: "2.29.0"  # 2.50.0
+#   eventLog:
+#     image:
+#       tag: "2.29.0"  # 2.50.0
+#   commitEventService:
+
+platformInit:
+  image:
+    tag: "0.67.1"
+initDb:
+  image:
+    tag: "0.67.1" 
